@@ -1,26 +1,34 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {
+  BrowserRouter,
+  Route,
+  Redirect,
+  RouteComponentProps,
+} from 'react-router-dom';
+import ChatRoomScreen from './components/ChatRoomScreen';
+import ChatsListScreen from './components/ChatsListScreen';
+import AnimatedSwitch from './components/AnimatedSwitch';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App: React.FC = () => (
+  <BrowserRouter>
+    <AnimatedSwitch>
+      <Route exact path="/chats" component={ChatsListScreen} />
+
+      <Route
+        exact
+        path="/chats/:chatId"
+        component={({
+          match,
+          history,
+        }: RouteComponentProps<{ chatId: string }>) => (
+          <ChatRoomScreen chatId={match.params.chatId} history={history} />
+        )}
+      />
+    </AnimatedSwitch>
+    <Route exact path="/" render={redirectToChats} />
+  </BrowserRouter>
+);
+
+const redirectToChats = () => <Redirect to="/chats" />;
 
 export default App;
