@@ -24,3 +24,4 @@ yarn-error.log*
 
 test-results/
 types/graphql.d.ts
+src/graphql/types.tsx
