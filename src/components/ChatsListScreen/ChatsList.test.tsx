@@ -11,6 +11,7 @@ import {
 import { createBrowserHistory } from 'history';
 import { mockApolloClient } from '../../test-helpers';
 import ChatsList, { getChatsQuery } from './ChatsList';
+import * as queries from '../../graphql/queries';
 
 describe('ChatsList', () => {
   afterEach(() => {
@@ -29,7 +30,7 @@ describe('ChatsList', () => {
   it('renders fetched chats data', async () => {
     const client = mockApolloClient([
       {
-        request: { query: getChatsQuery },
+        request: { query: queries.chats },
         result: {
           data: {
             chats: [
@@ -43,6 +44,10 @@ describe('ChatsList', () => {
                   id: 1,
                   content: 'Hello',
                   createdAt: new Date('1 Jan 2019 GMT'),
+                  chat: {
+                    __typename: 'Chat',
+                    id: 1,
+                  },
                 },
               },
             ],
@@ -68,14 +73,14 @@ describe('ChatsList', () => {
         'https://localhost:4000/picture.jpg'
       );
       expect(getByTestId('content')).toHaveTextContent('Hello');
-      expect(getByTestId('date')).toHaveTextContent('08:00');
+      expect(getByTestId('date')).toHaveTextContent('00:00');
     }
   });
 
   it('should navigate to the target chat room on chat item click', async () => {
     const client = mockApolloClient([
       {
-        request: { query: getChatsQuery },
+        request: { query: queries.chats },
         result: {
           data: {
             chats: [
@@ -89,6 +94,10 @@ describe('ChatsList', () => {
                   id: 1,
                   content: 'Hello',
                   createdAt: new Date('1 Jan 2019 GMT'),
+                  chat: {
+                    __typename: 'Chat',
+                    id: 1,
+                  },
                 },
               },
             ],
